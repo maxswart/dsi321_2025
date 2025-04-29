@@ -8,3 +8,5 @@ matplotlib
 fsspec==2025.3.2
 s3fs==2025.3.2
 pytz==2025.2
+streamlit==1.44.1
+geopandas==1.0.1
