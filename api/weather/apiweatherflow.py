@@ -194,6 +194,8 @@ def apiweather_flow() :
     lakefs_s3_path,
     storage_options=storage_options,
     partition_cols=["acq_year","acq_month","acq_day","acq_hour","acq_minute"],   # <-- crucial for partitioning by retrieval_time
+    engine="pyarrow",
+    index=False,
 )
 
 if __name__ == "__main__":
