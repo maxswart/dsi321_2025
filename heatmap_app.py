@@ -17,7 +17,7 @@ def load_shapefile():
     shapefile_path = r"C:\Users\guy88\private_file\study_file\DSI321\project\heat_spot_map\shape_file\tha_admbnda_adm1_rtsd_20220121.shp"
     gdf = gpd.read_file(shapefile_path)
     gdf = gdf.drop(columns=gdf.select_dtypes(include=['datetime64']).columns)
-    gdf = gdf.to_crs(epsg=4326)  # Ensure CRS is WGS84 (lat, lon)
+    gdf = gdf.to_crs(epsg=4326)
     return gdf
 
 # ---------- Load Parquet data function ----------
@@ -123,10 +123,17 @@ def generate_heatmap(filter_mode, filter_date_start, filter_date_end, filter_dat
 # ---------- Streamlit App Layout ----------
 def main():
     st.set_page_config(layout="wide")
-    
-    # Load data
-    gdf = load_shapefile()
-    parquet_files = load_parquet_data()
+
+    # Use session_state to avoid reloading
+    if 'gdf' not in st.session_state:
+        st.session_state.gdf = load_shapefile()
+
+    if 'parquet_files' not in st.session_state:
+        st.session_state.parquet_files = load_parquet_data()
+
+    gdf = st.session_state.gdf
+    parquet_files = st.session_state.parquet_files
+
 
     # Date filter (we will grab values from session for now)
     filter_mode = st.sidebar.radio("Filter Mode", ['exact', 'range'])
