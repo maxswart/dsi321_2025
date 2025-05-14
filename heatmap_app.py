@@ -115,7 +115,7 @@ def generate_heatmap(filter_mode, filter_date_start, filter_date_end, filter_dat
             gradient=gradient
         ).add_to(mymap)
 
-    return mymap
+    return mymap, province_counts
 
 # ---------- Streamlit App Layout ----------
 def main():
@@ -136,11 +136,22 @@ def main():
         filter_date_exact = st.sidebar.date_input("Select Date", datetime(2025, 4, 2))
         filter_date_start = filter_date_end = None
 
-    # Generate heatmap based on user input
-    mymap = generate_heatmap(filter_mode, filter_date_start, filter_date_end, filter_date_exact, gdf, parquet_files)
+    # Generate heatmap and get province heat spot counts
+    mymap, province_counts = generate_heatmap(filter_mode, filter_date_start, filter_date_end, filter_date_exact, gdf, parquet_files)
 
     # Display the map
     folium_static(mymap)
+
+    # Display the province heat spot count table
+    st.markdown("## Heat Spot Count by Province")
+
+    # Sort descending for easier reading
+    province_counts_sorted = province_counts.sort_values(by="heat_spot_count", ascending=False).reset_index(drop=True)
+
+    # Show as interactive table
+    st.dataframe(province_counts_sorted, use_container_width=True)
+
+
 
 if __name__ == "__main__":
     main()
