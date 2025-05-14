@@ -148,15 +148,6 @@ def main():
     overlay_html = f"""
     <div style="position: relative; width: 100%; height: 90vh;">
         {map_html}
-        
-        <!-- Floating Date UI -->
-        <div style="position: absolute; top: 20px; left: 20px; background-color: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; z-index:9999; width: 280px; font-family: Arial;">
-            <h4 style="margin-top:0;">📅 ตัวกรองวันที่</h4>
-            <p style="margin: 0;"><b>โหมด:</b> {filter_mode}</p>
-            <p style="margin: 0;"><b>เริ่ม:</b> {start_date if start_date else '-'}</p>
-            <p style="margin: 0;"><b>สิ้นสุด:</b> {end_date if end_date else '-'}</p>
-            <p style="margin: 0;"><b>วันที่:</b> {exact_date if exact_date else '-'}</p>
-        </div>
 
         <!-- Floating Table -->
         <div style="position: absolute; top: 20px; right: 20px; background-color: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; z-index:9999; width: 300px; max-height: 80vh; overflow-y: auto; font-family: Arial;">
