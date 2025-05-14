@@ -1,5 +1,7 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import folium
+from folium import Map
 import geopandas as gpd
 import pandas as pd
 from datetime import datetime
@@ -7,6 +9,7 @@ from shapely.geometry import Point
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
 import os
+import io
 
 # ---------- Load shapefile function ----------
 @st.cache_data
@@ -119,39 +122,62 @@ def generate_heatmap(filter_mode, filter_date_start, filter_date_end, filter_dat
 
 # ---------- Streamlit App Layout ----------
 def main():
-    st.title("Thailand Heat Spot Map")
-
+    st.set_page_config(layout="wide")
+    
     # Load data
     gdf = load_shapefile()
     parquet_files = load_parquet_data()
 
-    # Sidebar Date Filters
-    filter_mode = st.sidebar.radio("Select Date Filter Mode", ('exact', 'range'))
-
+    # Date filter (we will grab values from session for now)
+    filter_mode = st.sidebar.radio("Filter Mode", ['exact', 'range'])
     if filter_mode == 'range':
-        filter_date_start = st.sidebar.date_input("Start Date", datetime(2025, 5, 1))
-        filter_date_end = st.sidebar.date_input("End Date", datetime(2025, 5, 5))
-        filter_date_exact = None
-    elif filter_mode == 'exact':
-        filter_date_exact = st.sidebar.date_input("Select Date", datetime(2025, 4, 2))
-        filter_date_start = filter_date_end = None
+        start_date = st.sidebar.date_input("Start Date", datetime(2025, 5, 1))
+        end_date = st.sidebar.date_input("End Date", datetime(2025, 5, 5))
+        exact_date = None
+    else:
+        exact_date = st.sidebar.date_input("Exact Date", datetime(2025, 5, 1))
+        start_date = end_date = None
 
-    # Generate heatmap and get province heat spot counts
-    mymap, province_counts = generate_heatmap(filter_mode, filter_date_start, filter_date_end, filter_date_exact, gdf, parquet_files)
+    # Generate map and data
+    mymap, province_counts_sorted = generate_heatmap(filter_mode, start_date, end_date, exact_date, gdf, parquet_files)
 
-    # Display the map
-    folium_static(mymap)
+    # Get map HTML as string
+    map_html = mymap.get_root().render()
 
-    # Display the province heat spot count table
-    st.markdown("## Heat Spot Count by Province")
+    # Build overlay HTML
+    overlay_html = f"""
+    <div style="position: relative; width: 100%; height: 90vh;">
+        {map_html}
+        
+        <!-- Floating Date UI -->
+        <div style="position: absolute; top: 20px; left: 20px; background-color: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; z-index:9999; width: 280px; font-family: Arial;">
+            <h4 style="margin-top:0;">📅 ตัวกรองวันที่</h4>
+            <p style="margin: 0;"><b>โหมด:</b> {filter_mode}</p>
+            <p style="margin: 0;"><b>เริ่ม:</b> {start_date if start_date else '-'}</p>
+            <p style="margin: 0;"><b>สิ้นสุด:</b> {end_date if end_date else '-'}</p>
+            <p style="margin: 0;"><b>วันที่:</b> {exact_date if exact_date else '-'}</p>
+        </div>
 
-    # Sort descending for easier reading
-    province_counts_sorted = province_counts.sort_values(by="heat_spot_count", ascending=False).reset_index(drop=True)
+        <!-- Floating Table -->
+        <div style="position: absolute; top: 20px; right: 20px; background-color: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; z-index:9999; width: 300px; max-height: 80vh; overflow-y: auto; font-family: Arial;">
+            <h4 style="margin-top:0;">🔥 จุดความร้อนรายจังหวัด</h4>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead><tr><th style="text-align:left;">จังหวัด</th><th>จำนวน</th></tr></thead>
+                <tbody>
+    """
 
-    # Show as interactive table
-    st.dataframe(province_counts_sorted, use_container_width=True)
+    for _, row in province_counts_sorted.iterrows():
+        overlay_html += f"<tr><td>{row['ADM1_TH']}</td><td>{row['heat_spot_count']}</td></tr>"
 
+    overlay_html += """
+                </tbody>
+            </table>
+        </div>
+    </div>
+    """
 
+    # Show in Streamlit as raw HTML
+    components.html(overlay_html, height=800, scrolling=False)
 
 if __name__ == "__main__":
     main()
