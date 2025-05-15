@@ -9,9 +9,8 @@ services:
       LAKEFS_INSTALLATION_SECRET_ACCESS_KEY: "secret_key" #password
       LAKEFS_DATABASE_TYPE: "local"
       LAKEFS_AUTH_ENCRYPT_SECRET_KEY: "wait"
-
       LAKEFS_BLOCKSTORE_TYPE: "local"
-      
+
   prefect-server:
     build:
       context: ./make
@@ -28,7 +27,7 @@ services:
       retries: 10
     networks:
       - prefect-network
-  
+
   prefect-worker:
     build:
       context: ./make
@@ -39,7 +38,7 @@ services:
       - PREFECT_API_URL=http://prefect-server:4200/api
     volumes:
       - ./make/wait-for-server.sh:/wait-for-server.sh:ro
-      - ./work:/home/jovyan/work:rw
+      - ./api:/home/jovyan/api:rw
     entrypoint: ["/wait-for-server.sh"]
     networks:
       - prefect-network
@@ -54,15 +53,13 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./work:/home/jovyan/work:rw
+      - ./api:/home/jovyan/api:rw
     environment:
       - PREFECT_API_URL=http://prefect-server:4200/api
     networks:
       - prefect-network
 
-volumes:
-  postgres_data:
 
 networks:
   prefect-network:
-    driver: bridge   
+    driver: bridge
