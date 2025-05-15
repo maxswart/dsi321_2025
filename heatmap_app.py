@@ -8,6 +8,7 @@ from shapely.geometry import Point
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
 import os
+import duckdb
 
 # ---------- Load shapefile ----------
 @st.cache_data
@@ -20,17 +21,27 @@ def load_shapefile():
 
 # ---------- Load all parquet files ----------
 @st.cache_data
-def load_parquet_data_combined():
-    dfs = []
-    root_dir = r'C:\Users\guy88\private_file\study_file\DSI321\project\heat_spot_map\df_thai'
-    for root, _, files in os.walk(root_dir):
-        for file in files:
-            if file.endswith('.parquet'):
-                df = pd.read_parquet(os.path.join(root, file))
-                dfs.append(df)
-    combined_df = pd.concat(dfs, ignore_index=True)
-    combined_df['acq_date'] = pd.to_datetime(combined_df['acq_date']).dt.date
-    return combined_df
+def query_parquet_data(filter_mode, date_start=None, date_end=None, date_exact=None):
+    root_dir = r'C:/Users/guy88/private_file/study_file/DSI321/project/heat_spot_map/df_thai'
+    sql = f"""
+        SELECT latitude, longitude, brightness, acq_date
+        FROM parquet_scan('{root_dir}/**/*.parquet')
+    """
+
+    # Apply filtering logic
+    if filter_mode == 'range':
+        sql += f"""
+            WHERE acq_date BETWEEN DATE '{date_start}' AND DATE '{date_end}'
+        """
+    else:
+        sql += f"""
+            WHERE acq_date = DATE '{date_exact}'
+        """
+
+    con = duckdb.connect(database=':memory:')
+    df = con.execute(sql).fetchdf()
+    df['acq_date'] = pd.to_datetime(df['acq_date']).dt.date
+    return df
 
 # ---------- Generate Heatmap ----------
 def generate_heatmap(filter_mode, date_start, date_end, date_exact, gdf, df_all):
@@ -109,15 +120,6 @@ def generate_heatmap(filter_mode, date_start, date_end, date_exact, gdf, df_all)
 def main():
     st.set_page_config(layout="wide")
 
-    # Load once
-    if 'all_data' not in st.session_state:
-        st.session_state.all_data = load_parquet_data_combined()
-    if 'gdf' not in st.session_state:
-        st.session_state.gdf = load_shapefile()
-
-    df_all = st.session_state.all_data
-    gdf = st.session_state.gdf
-
     # Sidebar
     st.sidebar.title("🔍 Filter Options")
     filter_mode = st.sidebar.radio("Filter Mode", ['exact', 'range'])
@@ -129,6 +131,20 @@ def main():
     else:
         exact_date = st.sidebar.date_input("Exact Date", datetime(2025, 5, 1))
         start_date = end_date = None
+
+    # Load shapefile once
+    if 'gdf' not in st.session_state:
+        st.session_state.gdf = load_shapefile()
+    gdf = st.session_state.gdf
+
+    # Generate a session key based on filter input
+    key = f"{filter_mode}_{str(start_date)}_{str(end_date)}_{str(exact_date)}"
+
+    # Cache DuckDB query result
+    if key not in st.session_state:
+        st.session_state[key] = query_parquet_data(filter_mode, start_date, end_date, exact_date)
+
+    df_all = st.session_state[key]
 
     # Heatmap
     mymap, province_counts = generate_heatmap(filter_mode, start_date, end_date, exact_date, gdf, df_all)
