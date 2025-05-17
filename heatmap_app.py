@@ -28,19 +28,28 @@ def query_parquet_data(filter_mode, date_start=None, date_end=None, date_exact=N
         FROM parquet_scan('{root_dir}/**/*.parquet')
     """
 
-    # Apply filtering logic
-    if filter_mode == 'range':
+    # If we want the latest date, modify the SQL query to return the latest available date
+    if filter_mode == 'latest':
+        sql += """
+            ORDER BY acq_date DESC
+            LIMIT 1
+        """
+    # Apply filtering logic for 'range' and 'exact'
+    elif filter_mode == 'range':
         sql += f"""
             WHERE acq_date BETWEEN DATE '{date_start}' AND DATE '{date_end}'
         """
-    else:
+    elif filter_mode == 'exact' and date_exact:
         sql += f"""
             WHERE acq_date = DATE '{date_exact}'
         """
+    else:
+        raise ValueError("Invalid date or filter mode")
 
     con = duckdb.connect(database=':memory:')
     df = con.execute(sql).fetchdf()
     df['acq_date'] = pd.to_datetime(df['acq_date']).dt.date
+
     return df
 
 # ---------- Generate Heatmap ----------
@@ -135,12 +144,20 @@ def main():
     st.sidebar.title("🔍 Filter Options")
     filter_mode = st.sidebar.radio("Filter Mode", ['exact', 'range'])
 
+    # Get the latest date available in the dataset
+    if 'latest_date' not in st.session_state:
+        latest_df = query_parquet_data('latest', date_exact=None, date_start=None, date_end=None)
+        latest_date = latest_df['acq_date'].max()  # Get the latest date from the dataset
+        st.session_state.latest_date = latest_date
+    latest_date = st.session_state.latest_date
+
+    # Date input logic based on filter mode
     if filter_mode == 'range':
-        start_date = st.sidebar.date_input("Start Date", datetime(2025, 5, 1))
-        end_date = st.sidebar.date_input("End Date", datetime(2025, 5, 5))
+        start_date = st.sidebar.date_input("Start Date", latest_date)
+        end_date = st.sidebar.date_input("End Date", latest_date)
         exact_date = None
     else:
-        exact_date = st.sidebar.date_input("Exact Date", datetime(2025, 5, 1))
+        exact_date = st.sidebar.date_input("Exact Date", latest_date)
         start_date = end_date = None
 
     # Load shapefile once
