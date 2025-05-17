@@ -61,7 +61,12 @@ def generate_heatmap(filter_mode, date_start, date_end, date_exact, gdf, df_all)
             heat_data.append([lat, lon, brightness])
 
     # Folium Map Init
-    mymap = folium.Map(location=[13.7367, 100.5231], zoom_start=6)
+    mymap = folium.Map(
+        location=[13.7367, 100.5231],
+        zoom_start=6,
+        tiles='CartoDB Dark_Matter'
+    )
+
 
     # GeoDataFrame of fire points
     heat_points = gpd.GeoDataFrame(
@@ -84,10 +89,10 @@ def generate_heatmap(filter_mode, date_start, date_end, date_exact, gdf, df_all)
         name='Provinces',
         tooltip=folium.GeoJsonTooltip(fields=['ADM1_TH', 'heat_spot_count'], aliases=['Province', 'Heat Spots']),
         style_function=lambda x: {
-            'fillColor': '#e6bead',
+            'fillColor': '#e3e0de',
             'color': 'black',
-            'weight': 0.5,
-            'fillOpacity': 0.1
+            'weight': 0.7,
+            'fillOpacity': 0.3
         }
     ).add_to(mymap)
 
@@ -106,11 +111,17 @@ def generate_heatmap(filter_mode, date_start, date_end, date_exact, gdf, df_all)
             radius=10,
             blur=15,
             max_zoom=7,
-            gradient={
-                "0.2": "#FFA500",
-                "0.5": "#FF4500",
-                "0.8": "#FF0000",
-                "1.0": "#8B0000"
+            gradient = {
+                "0.1": "#ffffcc",  # Pale yellow
+                "0.2": "#ffeda0",
+                "0.3": "#fed976",
+                "0.4": "#feb24c",
+                "0.5": "#fd693c",
+                "0.6": "#fc2a2a",
+                "0.7": "#e31a1c",
+                "0.8": "#bd0000",
+                "0.9": "#800000",
+                "1.0": "#4d0000",  # Deep red
             }
         ).add_to(mymap)
 
