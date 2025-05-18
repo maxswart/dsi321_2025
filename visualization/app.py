@@ -1,6 +1,13 @@
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from zoneinfo import ZoneInfo
+from datetime import timedelta, datetime
 import streamlit as st
 import streamlit.components.v1 as components
 import folium
+import s3fs
 import geopandas as gpd
 import pandas as pd
 from datetime import datetime
@@ -8,66 +15,63 @@ from shapely.geometry import Point
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
 import os
-import duckdb
+
+# Set up environments of LakeFS
+lakefs_endpoint = "http://lakefs-dev:8000/"
+ACCESS_KEY = "access_key"
+SECRET_KEY = "secret_key"
+
+# Setting S3FileSystem for access LakeFS
+fs = {
+    "key": ACCESS_KEY,
+    "secret": SECRET_KEY,
+    "client_kwargs": {'endpoint_url': lakefs_endpoint}
+}
 
 # ---------- Load shapefile ----------
 @st.cache_data
 def load_shapefile():
-    shapefile_path = r"C:\Users\guy88\private_file\study_file\DSI321\project\heat_spot_map\shape_file\tha_admbnda_adm1_rtsd_20220121.shp"
-    gdf = gpd.read_file(shapefile_path)
+    shapefile_lakefs_path = "s3://weather/main/tha_admbnda_adm1_rtsd_20220121.shp"
+    gdf = gpd.read_file(path=shapefile_lakefs_path, storage_options=fs)
     gdf = gdf.drop(columns=gdf.select_dtypes(include=['datetime64']).columns)
     gdf = gdf.to_crs(epsg=4326)
     return gdf
 
 # ---------- Load all parquet files ----------
 @st.cache_data
-def query_parquet_data(filter_mode, date_start=None, date_end=None, date_exact=None):
-    root_dir = r'C:/Users/guy88/private_file/study_file/DSI321/project/heat_spot_map/df_thai'
-    sql = f"""
-        SELECT latitude, longitude, brightness, acq_date
-        FROM parquet_scan('{root_dir}/**/*.parquet')
-    """
+def query_parquet_data():
+    firms_lakefs_path = "s3://weather/main/firms.parquet"
+    df_firms = pd.read_parquet(    
+                path=firms_lakefs_path,
+                storage_options=fs
+)
+    df_firms.drop_duplicates(inplace=True)
+    df_firms['acq_date'] = pd.to_datetime(df_firms['acq_date']).dt.date
 
-    # If we want the latest date, modify the SQL query to return the latest available date
-    if filter_mode == 'latest':
-        sql += """
-            ORDER BY acq_date DESC
-            LIMIT 1
-        """
-    # Apply filtering logic for 'range' and 'exact'
-    elif filter_mode == 'range':
-        sql += f"""
-            WHERE acq_date BETWEEN DATE '{date_start}' AND DATE '{date_end}'
-        """
-    elif filter_mode == 'exact' and date_exact:
-        sql += f"""
-            WHERE acq_date = DATE '{date_exact}'
-        """
+    return df_firms
+
+# ---------- cache filtered result ----------
+@st.cache_data
+def filter_by_date(mode, date_start, date_end, date_exact):
+    df = query_parquet_data()
+    if mode == 'latest':
+        return df[df['acq_date'] == df['acq_date'].max()]
+    elif mode == 'range':
+        return df[(df['acq_date'] >= date_start) & (df['acq_date'] <= date_end)]
     else:
-        raise ValueError("Invalid date or filter mode")
-
-    con = duckdb.connect(database=':memory:')
-    df = con.execute(sql).fetchdf()
-    df['acq_date'] = pd.to_datetime(df['acq_date']).dt.date
-
-    return df
+        return df[df['acq_date'] == date_exact]
 
 # ---------- Generate Heatmap ----------
 def generate_heatmap(filter_mode, date_start, date_end, date_exact, gdf, df_all):
     # Filter
-    if filter_mode == 'range':
-        df_filtered = df_all[(df_all['acq_date'] >= date_start) & (df_all['acq_date'] <= date_end)]
-    else:
-        df_filtered = df_all[df_all['acq_date'] == date_exact]
+    df_filtered = df_all
 
     # Prepare heat data
     heat_data = []
     if 'latitude' in df_filtered.columns and 'longitude' in df_filtered.columns and not df_filtered.empty:
-        for _, row in df_filtered.iterrows():
-            lat = row['latitude']
-            lon = row['longitude']
-            brightness = row.get('brightness', 1)
-            heat_data.append([lat, lon, brightness])
+        df_filtered['brightness'] = df_filtered.get('brightness', 1)
+        heat_data = df_filtered[['latitude', 'longitude', 'brightness']].values.tolist()
+        
 
     # Folium Map Init
     mymap = folium.Map(
@@ -138,7 +142,7 @@ def generate_heatmap(filter_mode, date_start, date_end, date_exact, gdf, df_all)
 
 # ---------- Streamlit UI ----------
 def main():
-    st.set_page_config(layout="wide")
+    st.set_page_config(layout="wide")   
 
     # Sidebar
     st.sidebar.title("🔍 Filter Options")
@@ -146,7 +150,7 @@ def main():
 
     # Get the latest date available in the dataset
     if 'latest_date' not in st.session_state:
-        latest_df = query_parquet_data('latest', date_exact=None, date_start=None, date_end=None)
+        latest_df = filter_by_date( mode='latest', date_exact=None, date_start=None, date_end=None)
         latest_date = latest_df['acq_date'].max()  # Get the latest date from the dataset
         st.session_state.latest_date = latest_date
     latest_date = st.session_state.latest_date
@@ -168,9 +172,9 @@ def main():
     # Generate a session key based on filter input
     key = f"{filter_mode}_{str(start_date)}_{str(end_date)}_{str(exact_date)}"
 
-    # Cache DuckDB query result
+    # Cache query result
     if key not in st.session_state:
-        st.session_state[key] = query_parquet_data(filter_mode, start_date, end_date, exact_date)
+        st.session_state[key] = filter_by_date(filter_mode, start_date, end_date, exact_date)
 
     df_all = st.session_state[key]
 
