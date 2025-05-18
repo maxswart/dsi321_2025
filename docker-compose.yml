@@ -2,7 +2,7 @@ services:
   lakefs-dev:
     image: treeverse/lakefs:1.7.0
     ports:
-      - 8001:8000
+      - 8000:8000
     environment:
       LAKEFS_INSTALLATION_USER_NAME: "admin"
       LAKEFS_INSTALLATION_ACCESS_KEY_ID: "access_key" #username
@@ -61,21 +61,21 @@ services:
     networks:
       - prefect-network
 
-  # streamlit:
-  #   build:
-  #     context: ./make
-  #     dockerfile: Dockerfile.streamlit
-  #   ports:
-  #     - "8501:8501"
-  #   volumes:
-  #     - ./visualization:/app
-  #   environment:
-  #     - LAKEFS_ACCESS_KEY=access_key
-  #     - LAKEFS_SECRET_KEY=secret_key
-  #     - LAKEFS_ENDPOINT=http://lakefs-dev:8000
-  #   depends_on:
-  #     - lakefs-dev
-  #     - prefect-server
+  streamlit:
+    build:
+      context: .
+      dockerfile: make/Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./visualization:/app
+    environment:
+      - LAKEFS_ACCESS_KEY=access_key
+      - LAKEFS_SECRET_KEY=secret_key
+      - LAKEFS_ENDPOINT=http://lakefs-dev:8000
+    depends_on:
+      - lakefs-dev
+      - prefect-server
 
 
 networks:
