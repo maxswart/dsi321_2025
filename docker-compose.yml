@@ -76,6 +76,8 @@ services:
     depends_on:
       - lakefs-dev
       - prefect-server
+    networks:
+      - prefect-network
 
 
 networks:
