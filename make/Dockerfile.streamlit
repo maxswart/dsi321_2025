@@ -10,9 +10,9 @@ RUN apt-get update && \
     apt-get install -y curl git && \
     pip install --no-cache-dir -r /tmp/requirements.txt && \
     pip install --upgrade streamlit && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* 
 
-COPY visualization /app
+COPY visualization/ /app/
 
 EXPOSE 8501
 

@@ -14,7 +14,6 @@ from datetime import datetime
 from shapely.geometry import Point
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
-import os
 
 # Set up environments of LakeFS
 lakefs_endpoint = "http://lakefs-dev:8000/"
@@ -31,8 +30,7 @@ fs = {
 # ---------- Load shapefile ----------
 @st.cache_data
 def load_shapefile():
-    shapefile_lakefs_path = "s3://weather/main/tha_admbnda_adm1_rtsd_20220121.shp"
-    gdf = gpd.read_file(path=shapefile_lakefs_path, storage_options=fs)
+    gdf = gpd.read_file("shapefile/tha_admbnda_adm1_rtsd_20220121.shp")
     gdf = gdf.drop(columns=gdf.select_dtypes(include=['datetime64']).columns)
     gdf = gdf.to_crs(epsg=4326)
     return gdf
