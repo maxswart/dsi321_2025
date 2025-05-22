@@ -11,9 +11,6 @@ This document outlines how the project, as described in the provided report exce
 
 The project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This report details aspects of the system, its data governance framework, and some technical outcomes.
 
-## Grading Criteria Assessment
-
-The grading system is out of 100 points, divided into Technical Work (90 points) and Project Report (10 points).
 
 ### Part 1: Technical Work (90 points)
 
@@ -24,15 +21,6 @@ This section assesses the technical implementation and data quality.
 *   The source material indicates the project is part of the **"DSI324 PRACTICAL DATA GOVERNANCE PROJECT"**.
 *   However, the provided sources **do not mention the name of the GitHub repository** used for this project, nor do they state when it was created. Therefore, based *solely* on these sources, it is not possible to confirm if a repository named "dsi321" was created within the first week.
 
-#### Commit Frequency (10 points)
-
-*   The provided sources are excerpts from a static report.
-*   They contain **no information about the project's commit history or frequency** in any version control system. Therefore, it is not possible to assess the commit frequency based on these sources.
-
-#### Quality of README (10 points)
-
-*   The provided sources are the content of the project report itself.
-*   They **do not contain information describing the project's README file** or its length in characters. Therefore, the quality or length of the project's README cannot be assessed based on these sources.
 
 #### Quality of Dataset (50 points)
 
