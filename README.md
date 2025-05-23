@@ -19,8 +19,7 @@ This section assesses the technical implementation and data quality.
 #### Repository Setup (10 points)
 
 *   The source material indicates the project is part of the **"DSI324 PRACTICAL DATA GOVERNANCE PROJECT"**.
-*   However, the provided sources **do not mention the name of the GitHub repository** used for this project, nor do they state when it was created. Therefore, based *solely* on these sources, it is not possible to confirm if a repository named "dsi321" was created within the first week.
-
+*   GitHub Repository name: dsi321_2025
 
 #### Quality of Dataset (50 points)
 
