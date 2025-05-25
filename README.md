@@ -7,7 +7,7 @@ Okay, here is a draft markdown for a `README.md` file, designed to address the s
 
 # Project Assessment Summary based on Report Excerpts
 
-The project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This report details aspects of the system, its data governance framework, and some technical outcomes.
+The project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This report details aspects of the system, its data governance framework, and technical outcomes.
 
 
 ### Part 1: Technical Work (90 points)
@@ -16,7 +16,7 @@ This section assesses the technical implementation and data quality.
 
 #### Repository Setup (10 points)
 
-*   The source material indicates the project is part of the **"DSI324 PRACTICAL DATA GOVERNANCE PROJECT"**.
+*   The source material indicates the project is part of the **"DSI321 PRACTICAL DATA GOVERNANCE PROJECT"**.
 *   GitHub Repository name: dsi321_2025
 
 #### Quality of Dataset (50 points)
