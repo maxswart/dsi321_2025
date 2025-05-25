@@ -10,6 +10,24 @@ Our system aims to provide timely and accurate wildfire information by integrati
 The architecture of our wildfire alert system is designed for efficient data flow, processing, and visualization, orchestrated by Prefect. The following diagram illustrates our high-level design:
 
 ![High-Level System Design](image/HLD)
+
+## The system operates in distinct phases:
+
+### Extract: Data is extracted from two primary external sources:
+
+OpenWeather: Provides weather-related information crucial for understanding fire conditions.
+NASA FIRMS: Offers real-time fire and thermal anomaly data (hotspots).
+Transform: The extracted raw data is then transformed. This involves cleaning, normalizing, and combining the datasets. Initially, data is processed into CSV format for ease of manipulation, and subsequently converted into Parquet format, which is optimized for analytical queries and storage efficiency.
+
+### Load/Visualization (Orchestrated by Prefect):
+
+Prefect: Acts as the workflow orchestration tool, automating the entire Extract, Transform, and Load (ETL) process, ensuring timely data updates and system reliability.
+LakeFS: Serves as our data versioning and governance layer, allowing us to manage data like code, providing reproducibility, isolation, and rollback capabilities for our large-scale data.
+Streamlit: Powers our interactive web application, enabling users to visualize and interact with the processed data.
+GeoPandas & Folium: These libraries are integrated within the Streamlit application. GeoPandas is used for handling geospatial data, allowing us to perform geographical operations efficiently. Folium is utilized to render the interactive maps, clearly displaying wildfire hotspots and related information for intuitive data visualization.
+This design ensures a robust, scalable, and near real-time wildfire monitoring system, fulfilling our project objectives.
+
+
 ### Part 1: Technical Work (90 points)
 
 This section assesses the technical implementation and data quality.
