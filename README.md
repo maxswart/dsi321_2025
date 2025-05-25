@@ -1,4 +1,4 @@
-# DSI321_wildfire
+# DSI321: Wildfire Alert System - DSI324 Practical Data Governance Project
 
 
 # Project Summary
