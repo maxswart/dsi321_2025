@@ -88,6 +88,7 @@ This section assesses aspects presented in the report.
 ![Randomforest visual](image/RF.png)
 ##### RF.png
 
+
 *   The project explicitly states using **"MACHINE LEARNING (RANDOM FOREST)"** to find the relationship between weather conditions and fire hotspots.
 *   It specifically details using **Random Forest** to analyze the relationship between the brightness of hotspots and weather variables (Temperature, Humidity, Wind speed).
 *   The report includes performing **Feature Importance** analysis on the model.
