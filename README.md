@@ -35,7 +35,7 @@ This section assesses the technical implementation and data quality.
 
 #### Repository Setup (10 points)
 
-*   The source material indicates the project is part of the **"DSI321 PRACTICAL DATA GOVERNANCE PROJECT"**.
+*   The source material indicates the project is part of the **"DSI321: Wildfire Alert System / DSI324 Practical Data Governance Project"**.
 *   GitHub Repository name: dsi321_2025
 
 #### Quality of Dataset (50 points)
