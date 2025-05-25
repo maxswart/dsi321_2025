@@ -58,7 +58,7 @@ This project included 2 data folder
   
 *   **ครอบคลุมช่วงเวลา 24 ชั่วโมง (Time Coverage 24 hours):** The system collects data **"near real-time"** **"every 15 minutes"** and offers **"flexible selection of the time period"** for data inspection. This design strongly *implies* that data covering continuous periods, including 24 hours, can be collected and accessed. However, the sources **do not explicitly state that data covering a specific 24-hour period was successfully collected and utilized** for the results presented in the report excerpts.
   
-*   Data Completeness 90% (Requirement Met):
+*   **Data Completeness 90%:**
     - Data Quality is a fundamental principle of our Data Governance framework. We've established "Quality of Data (Data Quality Rate)" as a key performance indicator (KPI) for Data Integration, with the explicit goal that data should be "complete (no Missing/Corrupt)".
     - Furthermore, defining "standard data quality and verification mechanisms" is a core objective for Data Storage & Operations, explicitly mentioning "completeness (Completeness)" as a standard. Through automated data validation checks during ingestion and storage, as part of our Prefect workflows, we have consistently achieved a data completeness rate exceeding 90%.
     
