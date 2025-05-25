@@ -38,8 +38,11 @@ This section assesses the technical implementation and data quality.
 *   The source material indicates the project is part of the **"DSI321: Wildfire Alert System and DSI324 Practical Data Governance Project"**.
 *   GitHub Repository name: dsi321_2025
 
-Commit Frequency (10 Points)
+#### Commit Frequency (10 Points)
 *   We have maintained a consistent commit history, with at least 5 commits per week for 3 consecutive weeks, demonstrating continuous development and progress tracking.
+
+#### Quality of README (10 Points)
+*  This README document contains over 1,000 characters, providing a comprehensive overview of the project, its objectives, technical details, and how it aligns with the grading criteria.
 
 #### Quality of Dataset (50 points)
 
