@@ -1,15 +1,15 @@
 # DSI321_wildfire
-This project included 2 data folder
-- **df_thai** this folder contained heat spot location which come form **firm.py** then keep it as Hive-partition in parquet format
-- **shape_file** can download from [here](https://data.humdata.org/dataset/d24bdc45-eb4c-4e3d-8b16-44db02667c27/resource/d0c722ff-6939-4423-ac0d-6501830b1759/download/tha_adm_rtsd_itos_20210121_shp.zip)
-Okay, here is a draft markdown for a `README.md` file, designed to address the specified grading criteria based *only* on the information provided in the source excerpts and our conversation history.
 
 
-# Project Assessment Summary based on Report Excerpts
+# Project Summary
+This project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This README details the project's technical implementation, data governance framework, and its alignment with the DSI321 and DSI324 course grading criteria.
 
-The project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This report details aspects of the system, its data governance framework, and technical outcomes.
+Our system aims to provide timely and accurate wildfire information by integrating data from various sources, applying robust data governance principles, and leveraging machine learning for predictive insights. We've structured this project to meet stringent academic requirements, ensuring both technical excellence and comprehensive documentation.
 
+# High-Level System Design
+The architecture of our wildfire alert system is designed for efficient data flow, processing, and visualization, orchestrated by Prefect. The following diagram illustrates our high-level design:
 
+![High-Level System Design](image/)
 ### Part 1: Technical Work (90 points)
 
 This section assesses the technical implementation and data quality.
@@ -22,6 +22,10 @@ This section assesses the technical implementation and data quality.
 #### Quality of Dataset (50 points)
 
 The project deals with managing data from sources like FIRMS-NASA and OpenWeatherAPI to create a wildfire alert system.
+This project included 2 data folder
+- **df_thai** this folder contained heat spot location which come form **firm.py** then keep it as Hive-partition in parquet format
+- **shape_file** can download from [here](https://data.humdata.org/dataset/d24bdc45-eb4c-4e3d-8b16-44db02667c27/resource/d0c722ff-6939-4423-ac0d-6501830b1759/download/tha_adm_rtsd_itos_20210121_shp.zip)
+
 
 *   **Schema Consistency (10 points):** The project aims to use Prefect to pull data from multiple APIs (FIRMS-NASA, OpenWeatherAPI) and combine them into usable formats like **CSV/Parquet**. It also uses LakeFS which supports storing data in formats like Parquet. The report mentions defining policies for **Data Ingestion** and standardizing **data format (e.g., CSV, Parquet, GeoJSON)**, unit of measurement, and geographic coordinates. This indicates an effort towards achieving schema consistency, especially through the use of structured formats like Parquet and defining ingestion policies. However, the sources do not provide the specific target schema definition or explicitly state that the schema consistency meets a particular criterion.
 *   **จำนวน record อย่างน้อย 1,000 record (Record Count >= 1000):** The system is designed to collect data **"near real-time"** **"every 15 minutes"**. It is also mentioned that LakeFS is used for storing **"large-scale data"** (ข้อมูลขนาดใหญ่). While the system is designed for frequent data collection and managing large data volumes, the provided report excerpts **do not explicitly state the total number of records collected or used for the project's analysis or system demonstration**, or confirm that it exceeds 1,000 records. The example datasets shown in the images are small subsets.
