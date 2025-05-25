@@ -62,7 +62,7 @@ This section assesses aspects presented in the report.
 #### การนำเสนอข้อมูลด้วยภาพ (Data Visualization) (5 คะแนน)
 
 *   The project objective includes displaying the wildfire situation on an **"interactive map"** (แผนที่เชิงโต้ตอบ).
-*   The report details using **Folium for rendering the map**.
+*   The report details using **Folium for rendering the map on streamlit platform**.
 *   It describes displaying results as a **Heatmap** based on the number and brightness of fire points.
 *   **Image 7-2** shows below is a diagram explicitly labeling **"Heat Map"** as a feature.
 ![image 7-2](image/7-2.png)
