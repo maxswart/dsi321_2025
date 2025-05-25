@@ -75,6 +75,6 @@ This section assesses aspects presented in the report.
 *   It specifically details using **Random Forest** to analyze the relationship between the brightness of hotspots and weather variables (Temperature, Humidity, Wind speed).
 *   The report includes performing **Feature Importance** analysis on the model.
 *   The report presents and **explains the results** through a Correlation Matrix Heatmap/Table, and Scatter Plots showing the relationship between confidence/weather variables and Brightness. Detailed interpretations of these results are provided.
-*   This demonstrates the use of an ML technique (Random Forest), provides explanation of the results, and is clearly related to the project topic within the **DSI324** course context. Although the criterion mentioned Linear Regression as an example, Random Forest is a valid ML technique demonstrated and explained in the sources.
+*   This demonstrates the use of an ML technique (Random Forest), provides explanation of the results, and is clearly related to the project topic within the **DSI324 and DSI321** course context. Although the criterion mentioned Linear Regression as an example, Random Forest is a valid ML technique demonstrated and explained in the sources.
 
 ```
