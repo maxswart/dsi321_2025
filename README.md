@@ -50,7 +50,7 @@ The project deals with managing data from sources like FIRMS-NASA and OpenWeathe
 This project included 3 data folder
 - **df_thai** this folder contained heat spot location which come form **firm.py** then keep it as Hive-partition in parquet format
 - **shape_file** can download from [here](https://data.humdata.org/dataset/d24bdc45-eb4c-4e3d-8b16-44db02667c27/resource/d0c722ff-6939-4423-ac0d-6501830b1759/download/tha_adm_rtsd_itos_20210121_shp.zip)
-- **weather_outout** this folder contained heat spot location which come form **apiweatherdeploy.py** then keep it as Hive-partition in parquet format
+- **df_weather** this folder contained heat spot location which come form **apiweatherdeploy.py** then keep it as Hive-partition in parquet format
 
 
 *   **Schema Consistency (10 points):** The project aims to use Prefect to pull data from multiple APIs (FIRMS-NASA, OpenWeatherAPI) and combine them into usable formats like **CSV/Parquet**. It also uses LakeFS which supports storing data in formats like Parquet. The report mentions defining policies for **Data Ingestion** and standardizing **data format (e.g., CSV, Parquet, GeoJSON)**, unit of measurement, and geographic coordinates. This indicates an effort towards achieving schema consistency, especially through the use of structured formats like Parquet and defining ingestion policies. 
@@ -67,7 +67,7 @@ This project included 3 data folder
   
 *   **ไม่มีข้อมูลซ้ำ (No duplicate data):** During the data ingestion and processing pipeline, orchestrated by Prefect, we have implemented deduplication strategies to ensure that each record is unique. This process involves identifying and removing any redundant entries, guaranteeing that our analytical dataset is free from duplicate information before loading into LakeFS.
 
-![Info Dataframe FIRMSNASA](image/fire.png)
+![Info Dataframe FIRMS-NASA](image/fire.png)
 ![Info Dataframe OpenWeatherApi](image/weather.png)
 
 
