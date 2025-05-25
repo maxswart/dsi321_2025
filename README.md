@@ -98,4 +98,3 @@ This section assesses aspects presented in the report.
     - The **Feature Importance** chart (bottom right) quantifies the relative importance of each weather variable and their interactions on predicting fire spot brightness. Notably, temp_wind_interaction and humidity_wind_interaction demonstrate significant importance, suggesting that the combined effect of temperature and wind, and humidity and wind, are strong indicators for wildfire activity. Individual features like main.humidity, main.temp, and wind.speed also show their respective contributions.
 *   This demonstrates the use of an ML technique (Random Forest), provides explanation of the results, and is clearly related to the project topic within the **DSI324 and DSI321** course context. Although the criterion mentioned Linear Regression as an example, Random Forest is a valid ML technique demonstrated and explained in the sources.
 
-```
