@@ -7,8 +7,6 @@ Okay, here is a draft markdown for a `README.md` file, designed to address the s
 
 # Project Assessment Summary based on Report Excerpts
 
-This document outlines how the project, as described in the provided report excerpts, addresses the specified grading criteria for the DSI321 course. The information presented here is drawn directly and exclusively from the source material.
-
 The project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This report details aspects of the system, its data governance framework, and some technical outcomes.
 
 
