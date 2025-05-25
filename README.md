@@ -38,6 +38,9 @@ This section assesses the technical implementation and data quality.
 *   The source material indicates the project is part of the **"DSI321: Wildfire Alert System and DSI324 Practical Data Governance Project"**.
 *   GitHub Repository name: dsi321_2025
 
+Commit Frequency (10 Points)
+*   We have maintained a consistent commit history, with at least 5 commits per week for 3 consecutive weeks, demonstrating continuous development and progress tracking.
+
 #### Quality of Dataset (50 points)
 
 The project deals with managing data from sources like FIRMS-NASA and OpenWeatherAPI to create a wildfire alert system.
