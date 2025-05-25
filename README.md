@@ -15,8 +15,8 @@ The architecture of our wildfire alert system is designed for efficient data flo
 
 ### Extract: Data is extracted from two primary external sources:
 
-- **OpenWeather**: Provides weather-related information crucial for understanding fire conditions.
-- **NASA FIRMS**: Offers real-time fire and thermal anomaly data (hotspots).
+1. **OpenWeatherAPI**: Provides weather-related information crucial for understanding fire conditions.
+2. **NASA-FIRMS**: Offers real-time fire and thermal anomaly data (hotspots).
 - **Transform**: The extracted raw data is then transformed. This involves cleaning, normalizing, and combining the datasets. Initially, data is processed into CSV format for ease of manipulation, and subsequently converted into Parquet format, which is optimized for analytical queries and storage efficiency.
 
 ### Load/Visualization (Orchestrated by Prefect):
