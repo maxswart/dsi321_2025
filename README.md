@@ -2,9 +2,9 @@
 
 
 # Project Summary
-This project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This README details the project's technical implementation, data governance framework, and its alignment with the DSI321 and DSI324 course grading criteria.
+  This project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This README details the project's technical implementation, data governance framework, and its alignment with the DSI321 and DSI324 course grading criteria.
 
-Our system aims to provide timely and accurate wildfire information by integrating data from various sources, applying robust data governance principles, and leveraging machine learning for predictive insights. We've structured this project to meet stringent academic requirements, ensuring both technical excellence and comprehensive documentation.
+  Our system aims to provide timely and accurate wildfire information by integrating data from various sources, applying robust data governance principles, and leveraging machine learning for predictive insights. We've structured this project to meet stringent academic requirements, ensuring both technical excellence and comprehensive documentation.
 
 # High-Level System Design
 The architecture of our wildfire alert system is designed for efficient data flow, processing, and visualization, orchestrated by Prefect. The following diagram illustrates our high-level design:
