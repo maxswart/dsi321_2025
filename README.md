@@ -1,4 +1,4 @@
-# DSI324_wildfire
+# DSI321_wildfire
 This project included 2 data folder
 - **df_thai** this folder contained heat spot location which come form **firm.py** then keep it as Hive-partition in parquet format
 - **shape_file** can download from [here](https://data.humdata.org/dataset/d24bdc45-eb4c-4e3d-8b16-44db02667c27/resource/d0c722ff-6939-4423-ac0d-6501830b1759/download/tha_adm_rtsd_itos_20210121_shp.zip)
@@ -7,7 +7,7 @@ Okay, here is a draft markdown for a `README.md` file, designed to address the s
 
 # Project Assessment Summary based on Report Excerpts
 
-This document outlines how the project, as described in the provided report excerpts, addresses the specified grading criteria for the DSI324 course. The information presented here is drawn directly and exclusively from the source material.
+This document outlines how the project, as described in the provided report excerpts, addresses the specified grading criteria for the DSI321 course. The information presented here is drawn directly and exclusively from the source material.
 
 The project focuses on developing a wildfire alert system to monitor the situation in Thailand in near real-time and support the National Disaster Management Subcommittee. This report details aspects of the system, its data governance framework, and some technical outcomes.
 
