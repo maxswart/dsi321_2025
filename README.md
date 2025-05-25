@@ -60,8 +60,7 @@ This project included 2 data folder
   
 *   **ประเภทข้อมูลไม่มี 'object' (No 'object' data types):** The system uses structured formats like **CSV/Parquet** and stores data in LakeFS. It uses libraries like Geopandas for geographical data handling. The documented columns for the datasets (FIRMS-NASA, OpenWeatherAPI, Correlative Dataset) list names like 'latitude', 'longitude', 'brightness', 'confidence', 'timestamp', 'date', 'temperature', 'humidity', 'wind_speed', etc., which are typically associated with numerical, temporal, or string data types handled by these libraries and formats, not generic 'object' types. However, the sources **do not explicitly state that 'object' data types were specifically avoided** or confirm this criterion was met.
   
-*   **ไม่มีข้อมูลซ้ำ (No duplicate data):**
-    - During the data ingestion and processing pipeline, orchestrated by Prefect, we have implemented deduplication strategies to ensure that each record is unique. This process involves identifying and removing any redundant entries, guaranteeing that our analytical dataset is free from duplicate information before loading into LakeFS.
+*   **ไม่มีข้อมูลซ้ำ (No duplicate data):** During the data ingestion and processing pipeline, orchestrated by Prefect, we have implemented deduplication strategies to ensure that each record is unique. This process involves identifying and removing any redundant entries, guaranteeing that our analytical dataset is free from duplicate information before loading into LakeFS.
 
 ![Info Dataframe FIRMSNASA](image/fire.png)
 ![Info Dataframe OpenWeatherApi](image/weather.png)
