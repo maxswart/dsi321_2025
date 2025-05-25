@@ -9,7 +9,7 @@ Our system aims to provide timely and accurate wildfire information by integrati
 # High-Level System Design
 The architecture of our wildfire alert system is designed for efficient data flow, processing, and visualization, orchestrated by Prefect. The following diagram illustrates our high-level design:
 
-![High-Level System Design](image/)
+![High-Level System Design](image/HLD)
 ### Part 1: Technical Work (90 points)
 
 This section assesses the technical implementation and data quality.
