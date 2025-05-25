@@ -64,7 +64,8 @@ This section assesses aspects presented in the report.
 *   The project objective includes displaying the wildfire situation on an **"interactive map"** (แผนที่เชิงโต้ตอบ).
 *   The report details using **Folium for rendering the map**.
 *   It describes displaying results as a **Heatmap** based on the number and brightness of fire points.
-*   **Image 7-2** shows a diagram explicitly labeling **"Heat Map"** as a feature.
+*   **Image 7-2** shows below is a diagram explicitly labeling **"Heat Map"** as a feature.
+![image 7-2](image/)
 *   The project is explicitly presented as part of the **DSI324** course.
 *   This strongly demonstrates the creation of clear and meaningful visualizations related to the course topic.
 
