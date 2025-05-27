@@ -1,5 +1,3 @@
-[README.md](https://github.com/user-attachments/files/20452282/README.md)
-
 # DSI321: ระบบเตือนภัยไฟป่า (Wildfire Alert System)  
 ## โครงการร่วมรายวิชา DSI324: การจัดการข้อมูลเชิงปฏิบัติ
 
